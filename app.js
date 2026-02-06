@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+let mongoose = require('mongoose')
 
 
 var app = express();
@@ -22,17 +23,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 //domain:port/api/v1/categories
 //domain:port/api/v1/roles
 
+
+
+mongoose.connect('mongodb://localhost:27017/NNPTUD-C6');
+mongoose.connection.on('connected', function () {
+  console.log("connected");
+})
+mongoose.connection.on('disconnected', function () {
+  console.log("disconnected");
+})
+
 app.use('/', require('./routes/index'));
 app.use('/api/v1/users', require('./routes/users'));
 app.use('/api/v1/products', require('./routes/products'))
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
