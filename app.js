@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-mongoose.connect('mongodb://localhost:27017/NNPTUD-C6');
+mongoose.connect('mongodb://127.0.0.1:27017/NNPTUD-C6?directConnection=true');
 mongoose.connection.on('connected', function () {
   console.log("connected");
 })
